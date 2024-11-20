@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inv Premios</title>
+    {% load static %}
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'media/images/nice background.png' %}");
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            display: flex;
+            gap: 50px; /* Space between buttons */
+        }
+        .video-container {
+            width: 300px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed;
+            border-radius: 10px;
+            background-color: black;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .container2 h1{
+            font-family: "Lucida Handwriting" , "Comic Sans MS", cursive;
+            color: #ea26fe;
+            text-shadow:
+                    2px 2px 0px black,
+                    -2px 2px 0px black,
+                    2px -2px 0px black,
+                    -2px -2px 0px black;
+        }
+        .container2 p{
+            font-family: "Lucida Handwriting" , "Comic Sans MS", cursive;
+            color: #000000;
+        }
+        .button {
+            font-family: "Times New Roman", Times, serif;
+            padding: 10px 20px;
+            background-color: #c60000;
+            color: yellow;
+            border: black;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #424040; /* Darker color on hover */
+        }
+        .button1 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding: 10px 20px;
+            background-color: #ea46fe;
+            color: black;
+            border: black;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .button1:hover {
+            background-color: #47cc6d; /* Darker color on hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container2">
+    <h1>¿Quieres ir a los premios tvu conmigo?</h1>
+    <p>Att: Santi Gomez</p>
+    <div class="video-container">
+        <video autoplay loop muted playsinline>
+            <source src="{% static 'media/video/bichito.mp4' %}" type="video/mp4">
+        </video>
+    </div>
+</div>
+<div class="container">
+    <!-- Stationary Button -->
+    <button class="button1">Si :D</button>
+    <!-- Runaway Button -->
+    <button class="button" id="runaway">No :(</button>
+</div>
+
+<script>
+    const runawayButton = document.getElementById('runaway');
+    const moveDistance = 150; // Distance to move when approached
+
+    runawayButton.addEventListener('mouseover', (event) => {
+        // Get button's current position
+        const rect = runawayButton.getBoundingClientRect();
+        const buttonX = rect.left + rect.width / 2;
+        const buttonY = rect.top + rect.height / 2;
+
+        // Get the mouse position
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+
+        // Calculate direction away from the mouse
+        let offsetX = buttonX - mouseX > 0 ? moveDistance : -moveDistance;
+        let offsetY = buttonY - mouseY > 0 ? moveDistance : -moveDistance;
+
+        // Get viewport size
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Calculate new position
+        let newX = rect.left + offsetX;
+        let newY = rect.top + offsetY;
+
+        // Ensure the button stays within bounds
+        if (newX < 0 || newX + rect.width > viewportWidth) {
+            newX = rect.left - offsetX; // Reverse direction if out of bounds
+        }
+        if (newY < 0 || newY + rect.height > viewportHeight) {
+            newY = rect.top - offsetY; // Reverse direction if out of bounds
+        }
+
+        // Apply new position
+        runawayButton.style.transform = `translate(${newX - rect.left}px, ${newY - rect.top}px)`;
+    });
+</script>
+</body>
+</html>
