@@ -76,6 +76,58 @@
         .button1:hover {
             background-color: #47cc6d; /* Darker color on hover */
         }
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .popup.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .popup-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .popup-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .popup-content .close-btn:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
@@ -90,9 +142,15 @@
 </div>
 <div class="container">
     <!-- Stationary Button -->
-    <button class="button1">Si :D</button>
+    <button class="button1" id="showPopup">Si :D</button>
     <!-- Runaway Button -->
     <button class="button" id="runaway">No :(</button>
+</div>
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <button class="close-btn" id="closePopup">X</button>
+        <img src="{% static 'media/images/AsusOrdenes.jpeg' %}" alt="Pop-up Image">
+    </div>
 </div>
 
 <script>
@@ -131,6 +189,27 @@
 
         // Apply new position
         runawayButton.style.transform = `translate(${newX - rect.left}px, ${newY - rect.top}px)`;
+    });
+
+    const popup = document.getElementById('popup');
+    const showPopupButton = document.getElementById('showPopup');
+    const closePopupButton = document.getElementById('closePopup');
+
+    // Show the pop-up when the button is clicked
+    showPopupButton.addEventListener('click', () => {
+        popup.classList.add('show');
+    });
+
+    // Hide the pop-up when the close button is clicked
+    closePopupButton.addEventListener('click', () => {
+        popup.classList.remove('show');
+    });
+
+    // Hide the pop-up if clicking outside the image
+    popup.addEventListener('click', (event) => {
+        if (event.target === popup) {
+            popup.classList.remove('show');
+        }
     });
 </script>
 </body>
